@@ -1,7 +1,9 @@
 package com.example.speisekarteapp
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.speisekarteapp.databinding.ActivityMainBinding
@@ -29,6 +31,13 @@ class MainActivity : AppCompatActivity() {
         // Lege hier die Binding Variable an
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        if (savedInstanceState !=null) {
+            drink1.count = savedInstanceState.getInt("drink1")
+            drink2.count = savedInstanceState.getInt("drink2")
+            drink3.count = savedInstanceState.getInt("drink3")
+            bill = savedInstanceState.getFloat("bill")
+        }
+
         // Setze hier die Namen, Preise und Count in der View über die binding Variable
         binding.drink1Name.text = drink1.name
         binding.drink2Name.text = drink2.name
@@ -41,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         binding.drink1Count.text = drink1.count.toString()
         binding.drink2Count.text = drink2.count.toString()
         binding.drink3Count.text = drink3.count.toString()
-        binding.totalPrice.text = "0.0"
+        binding.totalPrice.text = bill.toString()
 
         // implementiere einen onClicklistener für das Kaffee Icon
         binding.drink1Button.setOnClickListener {
@@ -93,6 +102,46 @@ class MainActivity : AppCompatActivity() {
             binding.drink3Count.text = drink3.count.toString()
             binding.totalPrice.text = "0.0"
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e(TAG, "Lifecycle onStart")
+    }
+
+        override fun onRestart() {
+            super.onRestart()
+            Log.e(TAG, "Lifecycle onRestart")
+        }
+
+        override fun onResume() {
+            super.onResume()
+            Log.e(TAG, "Lifecycle onResume")
+        }
+
+        override fun onPause() {
+            super.onPause()
+            Log.e(TAG, "Lifecycle onPause")
+        }
+
+        override fun onStop() {
+            super.onStop()
+            Log.d(TAG, "Lifecycle onStop")
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            Log.e(TAG, "Lifecycle onDestroy")
+        }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.e(TAG, "onSaveInstanceState called")
+
+        outState.putInt("drink1", drink1.count)
+        outState.putInt("drink2", drink2.count)
+        outState.putInt("drink3", drink3.count)
+        outState.putFloat("bill", bill)
     }
 
     /**
